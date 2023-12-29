@@ -2,7 +2,7 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
-import "src/simpleToken.sol";
+import "src/token.sol";
 
 contract SimpleTokenTest is Test {
 
@@ -48,5 +48,21 @@ contract SimpleTokenTest is Test {
         assertEq(token.balanceOf(msg.sender), 996000);
         assertEq(token.balanceOf(address(this)), 400);
         assertEq(token.allowance(msg.sender, spender), 100);
+    }
+
+    function test_withdraw() public {
+        SimpleToken token = new SimpleToken("MyToken", "MTK", 18, 1000000);
+
+        token.withdraw(500);
+
+        assertEq(token.balanceOf(msg.sender), 999500);
+    }
+
+    function test_deposit() public {
+        SimpleToken token = new SimpleToken("MyToken", "MTK", 18, 1000000);
+
+        token.deposit(500);
+
+        assertEq(token.balanceOf(msg.sender), 1000500);
     }
 }
